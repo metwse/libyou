@@ -1,0 +1,11 @@
+PROJECT_NAME           = "libyou"
+OUTPUT_DIRECTORY       = "target/docs/"
+EXTRACT_STATIC         = YES
+MARKDOWN_SUPPORT       = YES
+INPUT                  = .
+RECURSIVE              = YES
+USE_MDFILE_AS_MAINPAGE = ./README.md
+GENERATE_HTML          = YES
+GENERATE_LATEX         = NO
+QUIET                  = YES
+EXTRACT_PRIVATE        = NO

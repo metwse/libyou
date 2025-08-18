@@ -1,5 +1,5 @@
 PROJECT_NAME = libyou
-MODULES = collections
+MODULES = collections huffman
 
 CXX = g++
 DEBUGGER = gdb
@@ -47,16 +47,16 @@ TEST_BUILD_DIR_$1 = $$(TEST_BUILD_DIR)/$1
 
 # Pattern rules for source files
 $$(OBJ_DIR_$1)/%.o: $$(SRC_DIR_$1)/%.cpp | $$(OBJ_DIR_$1)/%.d
-	$$(CXX) -c $$(CFLAGS) -I$$(INCLUDE_DIR_$1) $$< -o $$@
+	$$(CXX) -fPIC -c $$(CFLAGS) -I$$(INCLUDE_DIR_$1) $$< -o $$@
 
 $$(OBJ_DIR_$1)/%.debug.o: $$(SRC_DIR_$1)/%.cpp | $$(OBJ_DIR_$1)/%.d
-	$$(CXX) -c $$(TFLAGS) -I$$(INCLUDE_DIR_$1) $$< -o $$@
+	$$(CXX) -fPIC -c $$(TFLAGS) -I$$(INCLUDE_DIR_$1) $$< -o $$@
 
 $$(LIB_$1).so: $$(OBJS_$1) | $$(BUILD_DIR)
-	$$(CXX) -shared $$(CFLAGS) -I$$(INCLUDE_DIR_$1) $$^ -o $$@
+	$$(CXX) -fPIC -shared $$(CFLAGS) -I$$(INCLUDE_DIR_$1) $$^ -o $$@
 
 $$(LIB_$1)-debug.so: $$(DEBUG_OBJS_$1) | $$(BUILD_DIR)
-	$$(CXX) -shared $$(TFLAGS) -I$$(INCLUDE_DIR_$1) $$^ -o $$@
+	$$(CXX) -fPIC -shared $$(TFLAGS) -I$$(INCLUDE_DIR_$1) $$^ -o $$@
 
 # Pattern rules for integration tests
 $$(TEST_BUILD_DIR_$1)/%: $$(TEST_DIR_$1)/%.cpp $$(LIB_$1)-debug.so \
@@ -105,7 +105,10 @@ $(BUILD_DIR)/%.d:
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
-.PHONY += clean compile_comands
+.PHONY += clean compile_comands docs
+
+docs: | $(BUILD_DIR)
+	doxygen
 
 clean:
 	rm -rf $(BUILD_DIR)

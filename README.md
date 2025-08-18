@@ -26,6 +26,9 @@ directories.
 target/      # Build outputs
 Makefile     # Build system
 ```
+## Docs
+Run `make docs` for auto-generate Doxygen. Documentations located at
+`target/docs/`.
 
 ## Dependencies
 - GNU Make (≥ 4)
