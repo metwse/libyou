@@ -43,3 +43,13 @@ void Huffman::Node::print(ostream &os, string str) const {
     if (c)
         os << str << ": " << c << endl;
 }
+
+void Huffman::Node::into_map(map<char, size_t> &map, size_t parent) const {
+    if (left)
+        left->into_map(map, parent << 1);
+    if (right)
+        right->into_map(map, (parent << 1) | 1);
+
+    if (c)
+        map[c] = parent;
+}

@@ -3,6 +3,7 @@
 
 #include <huffman.hpp>
 
+#include <map>
 #include <ostream>
 #include <cstddef>
 
@@ -26,6 +27,7 @@ private:
     bool operator>(Node &other) const;
 
     void print(ostream &os, string) const;
+    void into_map(map<char, size_t> &, size_t) const;
 
     Node *left { nullptr };
     Node *right { nullptr };

@@ -42,6 +42,7 @@ Huffman::Huffman(FrequecyList list) {
         delete nodes[i];
 
     m_root = nodes[0];
+    m_root->into_map(m_map, 0);
 
     delete[] nodes;
 }
