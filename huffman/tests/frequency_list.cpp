@@ -7,7 +7,7 @@ using namespace std;
 
 
 int main() {
-    auto freq_list = Huffman::frequecy_list("abcddddeeff");
+    auto freq_list = Huffman::frequency_list("abcddddeeff");
 
     assert(freq_list[0].first == 4 && freq_list[0].second == 'd');
     assert(freq_list[1].first == 2 && freq_list[1].second == 'f');
