@@ -31,7 +31,13 @@ public:
     struct ByteArray {
         ~ByteArray();
 
+        /**
+         * Unserlying byte array.
+         */
         std::byte *arr;
+        /**
+         * Length of array, in bits.
+         */
         std::size_t len;
     };
 
@@ -79,6 +85,9 @@ private:
     std::map<char, size_t> m_map;
 };
 
+/**
+ * Prints the byte array.
+ */
 std::ostream &operator<<(std::ostream &os, const Huffman::ByteArray &arr);
 
 #endif
