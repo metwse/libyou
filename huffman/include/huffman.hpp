@@ -66,9 +66,9 @@ public:
     std::string decode(ByteArray &) const;
 
     /**
-     * Utility function for converting a string to \ref FrequecyList.
+     * Utility function for converting a string to \\ref FrequecyList.
      */
-    static FrequecyList frequecy_list(std::string);
+    static FrequecyList frequency_list(std::string);
 
     /**
      * Prints Huffman tree in a human readable format.

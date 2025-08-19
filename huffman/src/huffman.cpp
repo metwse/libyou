@@ -11,7 +11,7 @@ using namespace std;
 
 
 Huffman::Huffman(std::string str)
-    : Huffman::Huffman(Huffman::frequecy_list(str))
+    : Huffman::Huffman(Huffman::frequency_list(str))
 {}
 
 Huffman::Huffman(FrequecyList list) {
@@ -52,7 +52,7 @@ Huffman::~Huffman() {
         delete m_root;
 }
 
-Huffman::FrequecyList Huffman::frequecy_list(string str) {
+Huffman::FrequecyList Huffman::frequency_list(string str) {
     map<char, size_t> freq_list;
 
     for (char c : str)

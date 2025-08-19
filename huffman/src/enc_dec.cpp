@@ -44,11 +44,21 @@ Huffman::ByteArray Huffman::encode(string &str) const {
 
     for (char c : str) {
         if (m_map.count(c) == 1) {
-            size_t b = m_map.at(c);
-            auto mb = msb(b);
+            size_t code = m_map.at(c);
+            
+            // Calculate the actual bit length of the code
+            size_t bit_length = 1;
+            if (code > 0) {
+                bit_length = 0;
+                size_t temp = code;
+                while (temp > 0) {
+                    bit_length++;
+                    temp >>= 1;
+                }
+            }
 
-            if (mb + len > cap) {
-                auto new_cap = (mb / 8) + len + !!(mb % 8);
+            if (bit_length + len > cap) {
+                auto new_cap = (bit_length / 8) + len + !!(bit_length % 8) + 1;
 
                 if (cap == 0)
                     arr = (byte *) malloc(new_cap);
@@ -61,36 +71,17 @@ Huffman::ByteArray Huffman::encode(string &str) const {
                 cap = new_cap * 8;
             }
 
-            if (b == 0)
-                len += 1;
-
-            size_t reversed_b = 0;
-            for (auto i = 0; i < mb; i++) {
-                reversed_b |= (!!(b & (1 << i))) << (mb - i - 1);
-            }
-
-            b = reversed_b;
-
-            while (mb) {
-                size_t shift = len % 8;
-                size_t write = 8 - shift;
-                size_t mask = pow(2, write) - 1;
-                size_t push = b & mask;
-
-                size_t written;
-                if (mb < write) {
-                    written = mb;
-                    mb = 0;
-                } else {
-                    written = write;
-                    mb -= write;
+            // Write bits from MSB to LSB correctly
+            for (int i = bit_length - 1; i >= 0; i--) {
+                int bit = (code >> i) & 1;
+                size_t byte_index = len / 8;
+                size_t bit_index = len % 8;
+                
+                if (bit) {
+                    arr[byte_index] |= (byte)(1 << bit_index);
                 }
-
-                b >>= write;
-
-                arr[len / 8] |= (byte) push << shift;
-
-                len += written;
+                
+                len++;
             }
         }
     }
