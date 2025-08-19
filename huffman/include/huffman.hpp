@@ -52,12 +52,12 @@ public:
     /**
      * Encodes given string.
      */
-    ByteArray encode(std::string) const;
+    ByteArray encode(std::string &) const;
 
     /**
      * Decodes given \ref ByteArray into string.
      */
-    std::string decode(ByteArray) const;
+    std::string decode(ByteArray &) const;
 
     /**
      * Utility function for converting a string to \ref FrequecyList.

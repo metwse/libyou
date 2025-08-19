@@ -16,10 +16,12 @@ int main() {
         str.reserve(1024);
 
         for (size_t i = 0; i < 1024; i++)
-            str.push_back(rand() % ('Z' - 'A') + 'A');
+            str.push_back(rand() % ('~' - ' ') + ' ');
 
         auto huffman = Huffman(str);
 
-        assert(huffman.decode(huffman.encode(str)) == str);
+        auto encoded = huffman.encode(str);
+
+        assert(huffman.decode(encoded) == str);
     }
 }

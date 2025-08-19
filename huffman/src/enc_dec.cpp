@@ -37,7 +37,7 @@ static inline T pow(T num, U pow) {
 }
 
 
-Huffman::ByteArray Huffman::encode(string str) const {
+Huffman::ByteArray Huffman::encode(string &str) const {
     byte *arr = nullptr;
     size_t len = 0;
     size_t cap = 0;
@@ -101,7 +101,7 @@ Huffman::ByteArray Huffman::encode(string str) const {
     };
 }
 
-string Huffman::decode(Huffman::ByteArray arr) const {
+string Huffman::decode(Huffman::ByteArray &arr) const {
     string str = "";
     auto current = m_root;
 
