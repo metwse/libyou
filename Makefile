@@ -1,12 +1,12 @@
 PROJECT_NAME = libyou
-MODULES = collections huffman
+MODULES = collections huffman trees
 
 CXX = g++
 DEBUGGER = gdb
 MEMCHECK = valgrind --fair-sched=try --leak-check=full
 
 CFLAGS = -O2 -Wall -Werror -std=c++17
-TFLAGS = -O0 -g3 -Wall -std=c++17 -DDEBUG
+TFLAGS = -O0 -g3 -Wall -std=c++17 -DLY_DEBUG
 
 SRC_DIR = src
 INCLUDE_DIR = include
@@ -93,7 +93,7 @@ $(foreach module, \
 build/all: $(foreach module,$(MODULES),build/$(module))
 	@echo $^
 
-build/all/debug: $(foreach module,$(MODULES),build/$(module))
+build/all/debug: $(foreach module,$(MODULES),build/$(module)/debug)
 	@echo $^
 
 # Directory creation
