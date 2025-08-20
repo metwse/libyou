@@ -128,30 +128,27 @@ void AvlTree<T, F>::insert(T data) {
     if (!m_root) {
         m_root = new Node(data);
     } else {
-        Node *current = m_root;
-        Node *parent;
-        Node **target;
+        Node *parent = nullptr;
+        Node **target = &m_root;
 
-        while (current) {
-            parent = current;
+        while (*target) {
+            parent = *target;
 
-            if (F()(data, current->data))
-                target = &current->right;
+            if (F()(data, (*target)->data))
+                target = &(*target)->right;
             else
-                target = &current->left;
-
-            current = *target;
+                target = &(*target)->left;
         }
 
         *target = new Node(data);
         (*target)->parent = parent;
 
-        Node *node = parent;
-        while (node) {
-            Node *new_root = node->balance();
-            if (new_root && !new_root->parent)
+        while (parent) {
+            Node *hold_parent = parent->parent;
+            Node *new_root = parent->balance();
+            if (new_root && !hold_parent)
                 m_root = new_root;
-            node = node->parent;
+            parent = hold_parent;
         }
     }
 }
@@ -196,6 +193,9 @@ typename AvlTree<T, F>::Node *AvlTree<T, F>::Node::left_rotate() {
     right->left = this;
     right = hold_left;
 
+    if (hold_left)
+        hold_left->parent = this;
+
     if (is_root) {
         return hold_right;
     } else {
@@ -218,6 +218,9 @@ typename AvlTree<T, F>::Node *AvlTree<T, F>::Node::right_rotate() {
     left->parent = hold_parent;
     left->right = this;
     left = hold_right;
+
+    if (hold_right)
+        hold_right->parent = this;
 
     if (is_root) {
         return hold_left;
