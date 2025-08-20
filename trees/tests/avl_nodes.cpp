@@ -1,7 +1,7 @@
 #include <avl.hpp>
-#include "../src/node.hpp"
 
 #include <cassert>
+#include <type_traits>
 
 
 int main() {
@@ -74,5 +74,7 @@ int main() {
         assert(root->left->left->data == 3);
         assert(root->right->data == 1);
         assert(root->right->right->data == 5);
+
+        delete root;
     }
 }
