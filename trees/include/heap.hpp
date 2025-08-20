@@ -11,15 +11,16 @@
 
 #include <functional>
 #include <vector>
+#include <cstddef>
 
-/*
+/**
  * \brief Binary heap implemented using `std::vector`.
  */
 template<typename T, typename F = std::greater<T>>
 class BinaryHeap {
 public:
     /**
-     * Constructs an empty AVL tree.
+     * Constructs an empty binary heap.
      */
     BinaryHeap() = default;
 
@@ -40,6 +41,20 @@ public:
 #else
 private:
 #endif
+    void heapify(std::size_t);
+
+    static inline std::size_t parent_of(std::size_t i) {
+        return (i + 1) / 2 - 1;
+    };
+
+    static inline std::size_t left_of(std::size_t i) {
+        return (i + 1) * 2 - 1;
+    };
+
+    static inline std::size_t right_of(std::size_t i) {
+        return (i + 1) * 2;
+    };
+
     std::vector<T> m_data;
 };
 

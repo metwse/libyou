@@ -1,3 +1,10 @@
+/**
+ * \file
+ * \brief AVL Tree public header.
+ *
+ * AVL Tree implementaiton for libtrees.
+ */
+
 #pragma once
 #ifndef LY_AVL_HPP
 #define LY_AVL_HPP

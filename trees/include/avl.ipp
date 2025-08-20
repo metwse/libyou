@@ -6,7 +6,6 @@
 
 #include <algorithm>
 
-
 template<typename T, typename F>
 AvlTree<T, F>::~AvlTree<T, F>() {
     delete m_root;
