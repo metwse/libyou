@@ -23,7 +23,7 @@ public:
     /**
      * List of characters with their total occurance count.
      */
-    typedef std::vector<std::pair<std::size_t, char>> FrequecyList;
+    typedef std::vector<std::pair<std::size_t, char>> FrequencyList;
 
     /**
      * Array of bytes.
@@ -47,11 +47,11 @@ public:
     Huffman(std::string);
 
     /**
-     * Huffman binary tree from frequecy list.
+     * Huffman binary tree from frequency list.
      *
      * Provided list should have been ordered.
      */
-    Huffman(FrequecyList);
+    Huffman(FrequencyList);
 
     ~Huffman();
 
@@ -66,9 +66,9 @@ public:
     std::string decode(ByteArray &) const;
 
     /**
-     * Utility function for converting a string to \ref FrequecyList.
+     * Utility function for converting a string to \ref FrequencyList.
      */
-    static FrequecyList frequecy_list(std::string);
+    static FrequencyList frequency_list(std::string);
 
     /**
      * Prints Huffman tree in a human readable format.
