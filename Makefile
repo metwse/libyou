@@ -1,5 +1,5 @@
 PROJECT_NAME = libyou
-MODULES = collections huffman trees
+MODULES = huffman trees
 
 CXX = g++
 DEBUGGER = gdb
