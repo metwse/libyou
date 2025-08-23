@@ -62,6 +62,56 @@ bool AvlTree<T, F>::contains(const T &data) {
 }
 
 template<typename T, typename F>
+bool AvlTree<T, F>::remove(const T &elem) {
+    if (!m_root)
+        return false;
+
+    Node **current = m_root;
+    bool found = false;
+
+    while (current) {
+        if (elem == current->data) {
+            if (*current == m_root) {
+                delete m_root;
+                return true;
+            }
+            found = true;
+            break;
+        }
+
+        if (F()(elem, current->data))
+            current = &current->right;
+        else
+            current = &current->left;
+    }
+
+    if (!found)
+        return false;
+
+    if ((*current)->right && !(*current)->left) {
+        Node *hold = *current;
+        *current = hold->right;
+        delete hold;
+    } else if ((*current)->left && !(*current)->right) {
+        Node *hold = *current;
+        *current = hold->left;
+        delete hold;
+    } else if ((*current)->left && (*current)->right) {
+        // TODO
+    } else {
+        Node *parent = (*current)->parent;
+        if (parent->left == *current)
+            parent->left = nullptr;
+        else
+            parent->right = nullptr;
+
+        delete *current;
+    }
+
+    return true;
+}
+
+template<typename T, typename F>
 AvlTree<T, F>::Node::~Node() {
     if (left)
         delete left;
