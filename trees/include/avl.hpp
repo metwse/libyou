@@ -99,6 +99,12 @@ private:
          */
         void set_right(T);
 
+        /**
+         * Balances subtrees of the node.
+         *
+         * \return The new root if root of the should be changed, `nullptr`
+         * otherwise.
+         */
         Node *balance();
 
         size_t height();
@@ -108,6 +114,11 @@ private:
         Node *left { nullptr };
         Node *right { nullptr };
     };
+
+    /**
+     * Balances tree starting from the parent of given node.
+     */
+    void balance_up(AvlTree::Node *);
 
     /// Root node of the AVL tree (nullptr if empty).
     Node *m_root { nullptr };

@@ -12,9 +12,9 @@ AvlTree<T, F>::~AvlTree<T, F>() {
 }
 
 template<typename T, typename F>
-void AvlTree<T, F>::insert(T data) {
+void AvlTree<T, F>::insert(T elem) {
     if (!m_root) {
-        m_root = new Node(data);
+        m_root = new Node(elem);
     } else {
         Node *parent = nullptr;
         Node **target = &m_root;
@@ -22,40 +22,29 @@ void AvlTree<T, F>::insert(T data) {
         while (*target) {
             parent = *target;
 
-            if (F()(data, (*target)->data))
-                target = &(*target)->right;
-            else
-                target = &(*target)->left;
+            target = F()(elem, (*target)->data) ?
+                &(*target)->right : &(*target)->left;
         }
 
-        *target = new Node(data);
+        *target = new Node(elem);
         (*target)->parent = parent;
 
-        while (parent) {
-            Node *hold_parent = parent->parent;
-            Node *new_root = parent->balance();
-            if (new_root && !hold_parent)
-                m_root = new_root;
-            parent = hold_parent;
-        }
+        balance_up(parent);
     }
 }
 
 template<typename T, typename F>
-bool AvlTree<T, F>::contains(const T &data) {
+bool AvlTree<T, F>::contains(const T &elem) {
     if (!m_root)
         return false;
 
     Node *current = m_root;
 
     while (current) {
-        if (data == current->data)
+        if (elem == current->data)
             return true;
 
-        if (F()(data, current->data))
-            current = current->right;
-        else
-            current = current->left;
+        current = F()(elem, current->data) ? current->right : current->left;
     }
 
     return false;
@@ -66,50 +55,40 @@ bool AvlTree<T, F>::remove(const T &elem) {
     if (!m_root)
         return false;
 
-    Node **current = m_root;
+    Node **current = &m_root;
+    Node *hold_parent = nullptr;
     bool found = false;
 
     while (current) {
-        if (elem == current->data) {
-            if (*current == m_root) {
-                delete m_root;
-                return true;
-            }
+        if (elem == (*current)->data) {
             found = true;
             break;
         }
 
-        if (F()(elem, current->data))
-            current = &current->right;
-        else
-            current = &current->left;
+        hold_parent = current;
+        current = F()(elem, (*current)->data) ?
+            &(*current)->right : &(*current)->left;
     }
 
     if (!found)
         return false;
 
-    if ((*current)->right && !(*current)->left) {
-        Node *hold = *current;
-        *current = hold->right;
-        delete hold;
-    } else if ((*current)->left && !(*current)->right) {
-        Node *hold = *current;
-        *current = hold->left;
-        delete hold;
-    } else if ((*current)->left && (*current)->right) {
-        // TODO
-    } else {
-        Node *parent = (*current)->parent;
-        if (parent->left == *current)
-            parent->left = nullptr;
-        else
-            parent->right = nullptr;
-
-        delete *current;
-    }
+    // TODO: impl remove
 
     return true;
 }
+
+template<typename T, typename F>
+void AvlTree<T, F>::balance_up(Node *node) {
+    while (node) {
+        Node *hold_parent = node->parent;
+        Node *new_root = node->balance();
+        if (new_root && !hold_parent)
+            m_root = new_root;
+        node = hold_parent;
+    }
+}
+
 
 template<typename T, typename F>
 AvlTree<T, F>::Node::~Node() {
@@ -189,19 +168,21 @@ typename AvlTree<T, F>::Node *AvlTree<T, F>::Node::balance() {
             (left->right ? left->right->height() : 0)) {
             return right_rotate();
         } else {
-            Node *tmp = left->left_rotate();
-            if (tmp && !tmp->parent) return tmp;
-
+            Node *hold = left->left_rotate();
+            if (hold && !hold->parent)
+                return hold;
             return right_rotate();
         }
     }
+
     if (right && balance_factor < -1) {
         if ((right->right ? right->right->height() : 0) >=
             (right->left ? right->left->height() : 0)) {
             return left_rotate();
         } else {
-            Node *tmp = right->right_rotate();
-            if (tmp && !tmp->parent) return tmp;
+            Node *hold = right->right_rotate();
+            if (hold && !hold->parent)
+                return hold;
             return left_rotate();
         }
     }
@@ -210,21 +191,21 @@ typename AvlTree<T, F>::Node *AvlTree<T, F>::Node::balance() {
 }
 
 template<typename T, typename F>
-void AvlTree<T, F>::Node::set_left(T data) {
+void AvlTree<T, F>::Node::set_left(T elem) {
     if (left) {
-        left->data = data;
+        left->data = elem;
     } else {
-        left = new Node(data);
+        left = new Node(elem);
         left->parent = this;
     }
 }
 
 template<typename T, typename F>
-void AvlTree<T, F>::Node::set_right(T data) {
+void AvlTree<T, F>::Node::set_right(T elem) {
     if (right) {
-        right->data = data;
+        right->data = elem;
     } else {
-        right = new Node(data);
+        right = new Node(elem);
         right->parent = this;
     }
 }

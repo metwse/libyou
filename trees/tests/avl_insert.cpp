@@ -22,6 +22,8 @@ int main() {
 
                 assert(-2 < balance_factor && balance_factor < 2);
             }
+
+            assert(avl.contains(val));
         }
     }
 }
