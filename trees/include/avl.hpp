@@ -99,6 +99,21 @@ private:
          */
         void set_right(T);
 
+        /**
+         * Returns the pointer to the parent's subtree where this node is
+         * attached.
+         *
+         * Useful for re-linking the node during rotations or deletions,
+         * since it allows updating the parent's child pointer directly.
+         */
+        Node **parent_subtree();
+
+        /**
+         * Balances subtrees of the node.
+         *
+         * \return The new root if root of the tree should be changed,
+         *         `nullptr` otherwise.
+         */
         Node *balance();
 
         size_t height();
@@ -108,6 +123,23 @@ private:
         Node *left { nullptr };
         Node *right { nullptr };
     };
+
+    /**
+     * Balances tree starting from the parent of given node.
+     */
+    void balance_up(Node *);
+
+    /**
+     * Extracts the extreme (leftmost or rightmost) node from the subtree.
+     * \param child Pointer-to-member specifying which child pointer to
+     *        follow.
+     *        - Use `&Node::left` to extract the leftmost node.
+     *        - Use `&Node::right` to extract the rightmost node.
+     *
+     * \note The caller takes ownership of the returned node and is responsible
+     *       for managing its lifetime.
+     */
+    Node *extract_extreme(Node *, Node *Node::*child);
 
     /// Root node of the AVL tree (nullptr if empty).
     Node *m_root { nullptr };
