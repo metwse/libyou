@@ -57,12 +57,22 @@ public:
     /**
      * Returns a clone of j th column of matrix.
      */
-    Matrix<m, 1, T> col(int j);
+    Matrix<m, 1, T> col(int j) const;
 
     /**
      * Returns a clone of i th row of matrix.
      */
-    Matrix<1, n, T> row(int i);
+    Matrix<1, n, T> row(int i) const;
+
+    /**
+     * Element at (row, col)
+     */
+    T elem(int row, int col) const;
+
+    /**
+     * Transpose of the matrix.
+     */
+    Matrix<n, m, T> transpose() const;
 
     /**
      * Calculates the whole matrix multiplication.
@@ -93,12 +103,18 @@ public:
 
     template <int, int, typename> friend class Matrix;
 
+    template<int a, typename U>
+    friend U dot(const Matrix<a, 1, U> &, const Matrix<a, 1, U> &);
+
 protected:
     /**
      * Underlying 2D array.
      */
     std::array<std::array<T, n>, m> arr;
 };
+
+template<int n, typename T>
+T dot(const Matrix<n, 1, T> &a, const Matrix<n, 1, T> &b);
 
 #include "linalg.ipp"
 

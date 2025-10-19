@@ -1,3 +1,4 @@
+#include <iostream>
 #include <linalg.hpp>
 
 #include <cassert>
@@ -55,4 +56,8 @@ int main() {
         Matrix<1, 2>({ { 2, 1 }, }) - Matrix<1, 2>({ { 1,  3 }, }) ==
         Matrix<1, 2>({ { 1, -2 }, })
     ));
+
+    assert((dot(c.col(0), c.col(1)) == 205));
+
+    assert(((c.col(0).transpose() * c.col(1)).elem(0, 0) == 205));
 }
