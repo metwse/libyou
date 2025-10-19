@@ -55,17 +55,43 @@ public:
     constexpr static Matrix identity();
 
     /**
+     * Returns a clone of j th column of matrix.
+     */
+    Matrix<m, 1, T> col(int j);
+
+    /**
+     * Returns a clone of i th row of matrix.
+     */
+    Matrix<1, n, T> row(int i);
+
+    /**
+     * Calculates the whole matrix multiplication.
+     */
+    template<int p>
+    Matrix<m, p, T> operator*(const Matrix<n, p, T> &) const;
+
+    /**
+     * Matrix addition.
+     */
+    Matrix operator+(const Matrix &) const;
+
+    /**
+     * Matrix substraction.
+     */
+    Matrix operator-(const Matrix &) const;
+
+    /**
+     * Calculates the whole matrix multiplication.
+     */
+    bool operator==(const Matrix &) const;
+
+    /**
      * Formats and prints the matrix.
      */
     template<int a, int b, typename U>
     friend std::ostream &operator<<(std::ostream &, const Matrix<a, b, U> &);
 
-    /**
-     * Calculates the whole matrix multiplication.
-     */
-    template<int a, int b, int c, typename U>
-    friend Matrix<a, c, U> operator*(const Matrix<a, b, U> &,
-                                     const Matrix<b, c, U> &);
+    template <int, int, typename> friend class Matrix;
 
 protected:
     /**

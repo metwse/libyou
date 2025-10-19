@@ -38,6 +38,26 @@ constexpr Matrix<m, n, T> Matrix<m, n, T>::zeros() {
 }
 
 template<int m, int n, typename T>
+Matrix<m, 1, T> Matrix<m, n, T>::col(int j) {
+    auto col = Matrix<m, 1, T>();
+
+    for (int k = 0; k < m; k++)
+        col.arr[k][0] = arr[k][j];
+
+    return col;
+}
+
+template<int m, int n, typename T>
+Matrix<1, n, T> Matrix<m, n, T>::row(int i) {
+    auto row = Matrix<1, n, T>();
+
+    for (int k = 0; k < n; k++)
+        row.arr[0][k] = arr[i][k];
+
+    return row;
+}
+
+template<int m, int n, typename T>
 ostream &operator<<(ostream &os, const Matrix<m, n, T> &matrix) {
     os << "[\n";
     for (int j = 0; j < m; j++) {
@@ -51,21 +71,48 @@ ostream &operator<<(ostream &os, const Matrix<m, n, T> &matrix) {
     return os;
 }
 
-template<int a, int b, int c, typename U>
-Matrix<a, c, U> operator*(const Matrix<a, b, U> &lhs,
-                          const Matrix<b, c, U> &rhs) {
-    auto result = Matrix<a, c, U>();
+template<int m, int n, typename T>
+template<int p>
+Matrix<m, p, T> Matrix<m, n, T>::operator*(const Matrix<n, p, T> &rhs) const {
+    auto result = Matrix<m, p, T>();
 
-    for (int i = 0; i < a; i++)
-        for (int j = 0; j < c; j++) {
+    for (int i = 0; i < m; i++)
+        for (int j = 0; j < p; j++) {
             auto cell = &result.arr[i][j];
             *cell = 0;
 
-            for (int k = 0; k < b; k++)
-                *cell += lhs.arr[i][k] * rhs.arr[k][j];
+            for (int k = 0; k < n; k++)
+                *cell += arr[i][k] * rhs.arr[k][j];
         }
 
     return result;
+}
+
+template<int m, int n, typename T>
+Matrix<m, n, T> Matrix<m, n, T>::operator+(const Matrix<m, n, T> &rhs) const {
+    auto result = Matrix<m, n, T>();
+
+    for (int i = 0; i < m; i++)
+        for (int j = 0; j < n; j++)
+            result.arr[i][j] = arr[i][j] + rhs.arr[i][j];
+
+    return result;
+}
+
+template<int m, int n, typename T>
+Matrix<m, n, T> Matrix<m, n, T>::operator-(const Matrix<m, n, T> &rhs) const {
+    auto result = Matrix<m, n, T>();
+
+    for (int i = 0; i < m; i++)
+        for (int j = 0; j < n; j++)
+            result.arr[i][j] = arr[i][j] - rhs.arr[i][j];
+
+    return result;
+}
+
+template<int m, int n, typename T>
+bool Matrix<m, n, T>::operator==(const Matrix<m, n, T> &rhs) const {
+    return arr == rhs.arr;
 }
 
 #endif
