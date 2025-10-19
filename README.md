@@ -3,8 +3,8 @@
 ## Building
 | Command | Example | Output |
 |--|--|--|
-| `make build/<module>` | `make build/collections` | `target/libcollections.so` |
-| `make build/<module>/debug` | `make build/collections/debug` | `target/libcollections-debug.so` |
+| `make build/<module>` | `make build/trees` | `target/libtrees.so` |
+| `make build/<module>/debug` | `make build/trees/debug` | `target/libtrees-debug.so` |
 
 ##  Tests
 | Action | Command (example with collections/it_works.cpp) | Output |
