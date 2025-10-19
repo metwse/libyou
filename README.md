@@ -7,15 +7,15 @@
 | `make build/<module>/debug` | `make build/trees/debug` | `target/libtrees-debug.so` |
 
 ##  Tests
-| Action | Command (example with collections/it_works.cpp) | Output |
+| Action | Command (example with huffman/tests/enc_dec.cpp) | Output |
 |--|--|--|
-| Build test | `make build/collections/tests/it_works` | `target/tests/collections/it_works` |
-| Run test | `make run/collections/tests/it_works` | exit code |
-| Debug test | `make debug/collections/tests/it_works` | `gdb` session |
-| Memcheck test | `make memcheck/collections/tests/it_works` | leak report |
+| Build test | `make build/huffman/tests/enc_dec` | `target/tests/huffman/enc_dec` |
+| Run test | `make run/huffman/tests/enc_dec` | exit code |
+| Debug test | `make debug/huffman/tests/enc_dec` | `gdb` session |
+| Memcheck test | `make memcheck/huffman/tests/enc_dec` | leak report |
 
 ## Folder Structure
-Each module (e.g. `collections`) has its own `include/`, `src/`, and `tests/`
+Each module (e.g. `linalg`) has its own `include/`, `src/`, and `tests/`
 directories.
 
 ```py
