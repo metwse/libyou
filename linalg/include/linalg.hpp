@@ -55,6 +55,21 @@ public:
     constexpr static Matrix identity();
 
     /**
+     * Swap a th row with b th row.
+     */
+    void swap_rows(int a, int b);
+
+    /**
+     * Multiply row a with scalar k.
+     */
+    void multiply_row(int a, T k);
+
+    /**
+     * Multiply and add row a to row b.
+     */
+    void multiply_row_and_add_to(int a, T k, int b);
+
+    /**
      * Returns a clone of j th column of matrix.
      */
     Matrix<m, 1, T> col(int j) const;
@@ -67,12 +82,20 @@ public:
     /**
      * Element at (row, col)
      */
-    T elem(int row, int col) const;
+    T &elem(int row, int col) {
+        return arr[row][col];
+    }
 
     /**
      * Transpose of the matrix.
      */
     Matrix<n, m, T> transpose() const;
+
+    /**
+     * Matrix type conversion.
+     */
+    template<typename U>
+    Matrix<m, n, U> cast() const;
 
     /**
      * Calculates the whole matrix multiplication.
